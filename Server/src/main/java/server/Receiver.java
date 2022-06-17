@@ -97,14 +97,6 @@ public class Receiver {
 		return response;
 	}
 
-	//  todo Разобраться с терминалом
-//	public String executeScript(Invoker invoker, TreeSet<City> collection, String filename) throws FileNotFoundException {
-//
-//		Terminal terminal = new Terminal(invoker, collection);
-//
-//		return terminal.startFile(filename);
-//
-//	}
 
 	public Response removeAllByGovernment(String argument){
 		Government government = null;
@@ -203,7 +195,7 @@ public class Receiver {
 
 	public Response save(){
 		WorkWithFile worker = new WorkWithFile();
-		response.setMessage("Сообщение от сервера: " + worker.writeInFile(collection));
+		worker.writeInFile(collection);
 		return response;
 	}
 

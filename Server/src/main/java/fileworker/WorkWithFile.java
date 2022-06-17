@@ -5,18 +5,17 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import input.Creator;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
+
+import static java.lang.System.getenv;
 
 public class WorkWithFile {
 
 	public static void fillTheCollection(TreeSet<City> collection) throws IOException, CsvValidationException {
 
-		try (CSVReader reader = new CSVReader(new FileReader("Collection.txt"))) {
+		try (CSVReader reader = new CSVReader(new FileReader( getenv("path")))) {
 			String[] components;
 			long i = 1;
 			while ((components = reader.readNext()) != null) {
@@ -27,13 +26,16 @@ public class WorkWithFile {
 				}
 				collection.add(city);
 			}
+		} catch (NullPointerException ex){
+			System.out.println("Для запуска серверного приложения необходимо инициализировать переменную окружения path со входной коллекцией");
+			System.exit(-1);
 		}
 
 	}
 
 	public String writeInFile(TreeSet<City> collection){
 
-		try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("Collection.txt"))) {
+		try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(System.getenv("path")))) {
 			for (City city : collection){
 				byte[] s = city.cityToString().getBytes(StandardCharsets.UTF_8);
 				out.write(s);
